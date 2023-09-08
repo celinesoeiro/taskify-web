@@ -42,6 +42,9 @@ const config: Config = {
           800: '#6e5634',
           900: '#564329',
         }
+      },
+      boxShadow: {
+        'retro': '4px 4px 0 0 #000'
       }
     },
   },

@@ -25,7 +25,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${calistogaFont.variable} ${nunitoFont.variable} bg-orange-100`}>{children}</body>
+      <body className={`${calistogaFont.variable} ${nunitoFont.variable} bg-orange-100 font-sans`}>{children}</body>
     </html>
   )
 }
