@@ -4,6 +4,7 @@ import tasksImg from '../../public/tasks-image.svg'
 import { Banner } from "@/components/Banner"
 import { Tabs } from "@/components/Tabs"
 import { Checkbox } from "@/components/Checkbox"
+import { Button } from "@/components/Button"
 
 export default function Home() {
   return (
@@ -29,16 +30,35 @@ export default function Home() {
             content: <div className="gap-4 flex flex-col">
               <Checkbox label="Task 01" />
               <Checkbox label="Task 02" />
+              <Checkbox label="Task 03" />
+              <Checkbox label="Task 04" />
+              <Checkbox label="Task 05" />
+              <Checkbox label="Task 06" />
+              <Checkbox label="Task 07" />
+              <Checkbox label="Task 08" />
+              <Checkbox label="Task 09" />
+              <Checkbox label="Task 10" />
+              <Checkbox label="Task 11" />
+              <Checkbox label="Task 12" />
+              <Checkbox label="Task 13" />
+              <Checkbox label="Task 14" />
+              <Checkbox label="Task 15" />
             </div>
           },
           {
             label: 'DONE',
             content: <div className="gap-4 flex flex-col">
-              <Checkbox label="Task 03" />
-              <Checkbox label="Task 04" />
+              <Checkbox label="Task 16" />
+              <Checkbox label="Task 17" />
             </div>
           },
         ]} />
+
+        <div className="flex flex-row gap-4 justify-center">
+          <Button>Add task via CSV</Button>
+          <Button>Add individual task</Button>
+        </div>
+
       </section>
     </main>
   )

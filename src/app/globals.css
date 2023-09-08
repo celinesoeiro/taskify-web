@@ -6,3 +6,14 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizedLegibility;
 }
+
+::-webkit-scrollbar {
+  color: #000;
+  width: 13px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #000;
+  border-radius: 20px;
+  border: 4px solid #fbf6ff;
+}
