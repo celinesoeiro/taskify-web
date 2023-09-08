@@ -1,8 +1,6 @@
 import { PropsWithChildren } from 'react'
 
-interface BannerProps extends PropsWithChildren {
-
-}
+interface BannerProps extends PropsWithChildren { }
 
 export const Banner = ({ children }: BannerProps) => {
   return (
