@@ -6,7 +6,7 @@ interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
 }
 
-export const Checkbox = ({ label, id }: CheckboxProps) => {
+export const Checkbox = ({ label, id, ...props }: CheckboxProps) => {
   const [checked, setChecked] = useState(false)
 
   return (
@@ -18,10 +18,12 @@ export const Checkbox = ({ label, id }: CheckboxProps) => {
         id={id}
         checked={checked}
         onChange={() => setChecked(!checked)}
+        {...props}
       />
       <label
         className={`pl-2 cursor-pointer text-black peer-disabled:cursor-not-allowed peer-disabled:text-slate-400 ${checked ? 'line-through' : ''} transition-all`}
         htmlFor={id}
+        onClick={() => setChecked(!checked)}
       >
         {label}
       </label>

@@ -4,7 +4,7 @@ import tasksImg from '../../public/tasks-image.svg'
 import { Banner } from "@/components/Banner"
 import { Tabs } from "@/components/Tabs"
 import { Checkbox } from "@/components/Checkbox"
-import { Button } from "@/components/Button"
+import { ModalManager } from "@/components/ModalManager"
 
 export default function Home() {
   return (
@@ -54,10 +54,7 @@ export default function Home() {
           },
         ]} />
 
-        <div className="flex flex-row gap-4 justify-center">
-          <Button>Add task via CSV</Button>
-          <Button>Add individual task</Button>
-        </div>
+        <ModalManager />
 
       </section>
     </main>
