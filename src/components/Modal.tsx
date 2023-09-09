@@ -9,7 +9,6 @@ interface ModalProps extends PropsWithChildren {
 }
 
 export const Modal = ({ title, isOpen, setIsOpen, children }: ModalProps) => {
-
   return (
     <div id="dialog-wrapper" className='absolute top-[20%] left-[45%]'>
       <dialog
