@@ -10,7 +10,7 @@ interface ModalProps extends PropsWithChildren {
 
 export const Modal = ({ title, isOpen, setIsOpen, children }: ModalProps) => {
   return (
-    <div id="dialog-wrapper" className='absolute top-[20%] left-[45%]'>
+    <div id="dialog-wrapper" className='absolute top-[20%] left-[45%] md:top-[10%] md:left-[35%]'>
       <dialog
         id="dialog"
         open={isOpen}
@@ -22,7 +22,7 @@ export const Modal = ({ title, isOpen, setIsOpen, children }: ModalProps) => {
             className="font-bold text-xl"
             onClick={setIsOpen}
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-x"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
           </button>
         </div>
         <div className='bg-orange-200 p-6 '>

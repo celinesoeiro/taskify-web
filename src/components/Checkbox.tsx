@@ -4,15 +4,16 @@ import { useState, InputHTMLAttributes } from "react"
 
 interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
+  handleClick: () => void;
 }
 
-export const Checkbox = ({ label, id, ...props }: CheckboxProps) => {
+export const Checkbox = ({ label, id, handleClick, ...props }: CheckboxProps) => {
   const [checked, setChecked] = useState(false)
 
   return (
-    <div className="relative flex flex-wrap items-center">
+    <div className="relative flex flex-wrap items-center w-full" onClick={handleClick}>
       <input
-        className={`w-5 h-5 transition-colors bg-white border-2 rounded appearance-none cursor-pointer border-violet-700 focus-visible:outline-none peer checked:border-black checked:bg-violet-200 checked:hover:shadow-retro checked:hover:bg-violet-300 focus:outline-none checked:focus:shadow-retro checked:focus:bg-violet-400 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 ${checked ? "shadow-retro" : ''}`}
+        className={`w-5 h-5 transition-colors bg-white border-2 rounded appearance-none cursor-pointer border-violet-700 focus-visible:outline-none peer checked:border-black checked:bg-violet-200 checked:hover:shadow-retro checked:shadow-retro checked:hover:bg-violet-300 focus:outline-none checked:focus:shadow-retro checked:focus:bg-violet-400 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 ${checked ? "shadow-retro" : ''}`}
         type="checkbox"
         value=""
         id={id}

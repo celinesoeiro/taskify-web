@@ -65,7 +65,7 @@ export const Tabs = ({ tabs }: TabsProps) => {
   })
 
   return (
-    <div className='shadow-retro max-h-[464px] h-full'>
+    <div className='shadow-retro max-h-[464px] md:max-h-[360px] h-full'>
       <ul
         className='flex items-center border border-black'
         role="tabs"
@@ -93,13 +93,11 @@ export const Tabs = ({ tabs }: TabsProps) => {
           </li>
         ))}
       </ul>
-      <div className='border-b-2 border-l-2 border-r-2 border-black p-4 h-full max-h-[420px] overflow-y-auto'>
+      <div className='border-b-2 border-l-2 border-r-2 border-black p-4 h-full max-h-[420px] md:max-h-[312px] overflow-y-auto'>
         {tabs.map((tab, index) => (
           <div key={tab.label}>
             {index + 1 === selectedTab.currentTab && (
-              <>
-                {tab.content}
-              </>
+              <>{tab.content}</>
             )}
           </div>
         ))}
