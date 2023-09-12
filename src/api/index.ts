@@ -7,15 +7,17 @@ interface CreateTask {
     description?: string;
 }
 
-export const listTasks = async () => {    
-    return await fetch(baseURL, {
+export const listTasks = async (id?: string) => {
+    let url = id ? `${baseURL}?id=${id}` : baseURL
+    return await fetch(url, {
         method: 'GET',
-        mode: 'cors'
-      })  
+        mode: 'cors',
+    })
 }
 
 export const markAsDone = async (id: string) => {
-    return await fetch(`${baseURL}/${id}/completed`, {
+    console.log({ id })
+    return await fetch(`${baseURL}/${id}/complete`, {
         method: 'PATCH',
         mode: 'cors'
     })
@@ -45,6 +47,17 @@ export const createTaskByCSV = async (data: FormData) => {
         mode: 'cors',
         headers: {
             'content-type': 'multipart/form-data'
+        },
+        body: JSON.stringify(data)
+    })
+}
+
+export const updateTask = async (id: string, data: CreateTask) => {
+    return await fetch(`${baseURL}/${id}`, {
+        method: 'PUT',
+        mode: 'cors',
+        headers: {
+            'accept': 'application/json',
         },
         body: JSON.stringify(data)
     })

@@ -6,23 +6,23 @@ import { Modal } from "./Modal"
 import { Button } from './Button';
 import { Input } from './Input';
 import { DragAndDrop } from './DragAndDrop';
-import { createTask, createTaskByCSV } from '@/api';
 
-interface ModalManagerProps {
+import { createTask, createTaskByCSV } from '@/api';
+import { useModal } from '@/contexts/ModalContext'
+
+interface CreateTaskModalProps {
   fetchData: () => void
 }
 
-export const ModalManager = ({ fetchData }: ModalManagerProps) => {
-  const [openIndividualTaskModal, setOpenIndividualTaskModal] = useState(false);
+export const CreateTaskModal = ({ fetchData }: CreateTaskModalProps) => {
+  const { closeCreateTaskModal, isCreateTaskModalOpen, openCreateTaskModal } = useModal()
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
   })
   const [fileData, setFileData] = useState()
 
-  const handleOpenIndividualModal = () => {
-    setOpenIndividualTaskModal(true)
-  }
 
   const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
     const fieldName = event.target.name
@@ -46,8 +46,8 @@ export const ModalManager = ({ fetchData }: ModalManagerProps) => {
         formData.append('file', event.target.files[0])
 
         const response = await createTaskByCSV(formData)
-  
-        console.log({response})
+
+        console.log({ response })
       }
     } catch (err) {
       console.error('Error on file upload: ', err)
@@ -58,7 +58,7 @@ export const ModalManager = ({ fetchData }: ModalManagerProps) => {
     event.preventDefault()
 
     try {
-      
+
     } catch (e) {
 
     }
@@ -67,10 +67,10 @@ export const ModalManager = ({ fetchData }: ModalManagerProps) => {
 
     const response = await createTask(formData)
 
-    console.log({response, fileReader})
+    console.log({ response, fileReader })
 
-    if (response.status === 201){
-      setOpenIndividualTaskModal(false)
+    if (response.status === 201) {
+      closeCreateTaskModal()
       fetchData()
     }
 
@@ -78,14 +78,10 @@ export const ModalManager = ({ fetchData }: ModalManagerProps) => {
 
   return (
     <div>
-      <div className="flex flex-row gap-4 justify-center">
-        <Button onClick={handleOpenIndividualModal}>Add new task</Button>
-      </div>
-
       <Modal
         title="Add new task"
-        isOpen={openIndividualTaskModal}
-        setIsOpen={() => setOpenIndividualTaskModal(false)}
+        isOpen={isCreateTaskModalOpen}
+        setIsOpen={closeCreateTaskModal}
       >
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <p className='flex justify-center'>You can add a single task</p>
