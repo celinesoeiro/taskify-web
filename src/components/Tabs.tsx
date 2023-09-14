@@ -93,7 +93,7 @@ export const Tabs = ({ tabs }: TabsProps) => {
           </li>
         ))}
       </ul>
-      <div className='border-b-2 border-l-2 border-r-2 border-black p-4 h-full max-h-[420px] md:max-h-[312px] overflow-y-auto'>
+      <div className='border-b-2 border-l-2 border-r-2 border-black p-4 h-full max-h-[415px] md:max-h-[312px] lg:max-h-[312px] xl:max-h-[312px] 2xl:max-h-[312pxpx] overflow-y-auto'>
         {tabs.map((tab, index) => (
           <div key={tab.label}>
             {index + 1 === selectedTab.currentTab && (
