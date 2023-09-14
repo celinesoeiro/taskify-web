@@ -6,6 +6,8 @@ interface CreateTask {
 }
 
 export const listTasks = async (id?: string) => {
+    localStorage.getItem('tasks')
+
     let url = id ? `${baseURL}?id=${id}` : baseURL
     return await fetch(url, {
         method: 'GET',
@@ -14,7 +16,6 @@ export const listTasks = async (id?: string) => {
 }
 
 export const markAsDone = async (id: string) => {
-    console.log({ id })
     return await fetch(`${baseURL}/${id}/complete`, {
         method: 'PATCH',
         mode: 'cors'
@@ -29,7 +30,6 @@ export const deleteTask = async (id: string) => {
 }
 
 export const createTask = async (data: CreateTask) => {
-    console.log({ data })
     return await fetch(baseURL, {
         method: 'POST',
         mode: 'cors',

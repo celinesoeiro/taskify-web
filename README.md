@@ -1,34 +1,83 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<h1 align="center">
+  <br>
+  Taskify
+  <br>
+</h1>
 
-## Getting Started
+<h4 align="center">A minimal app built with <a href="https://nextjs.org/" target="_blank">Next.js</a> and <a href="https://tailwindcss.com/" target="_blank">Tailwind CSS</a> to help you get your tasks organized</h4>
 
-First, run the development server:
+<br/>
+
+<p align="center">
+  <a href="#key-features">Key Features</a> •
+  <a href="#how-to-use">How To Use</a> •
+  <a href="#credits">Credits</a> •
+  <a href="#license">License</a>
+</p>
+
+<div align="center">
+
+![6udfyw](https://user-images.githubusercontent.com/52112166/191875096-6faf9528-8e93-4d9f-b560-23c8171c3584.gif)
+
+[Watch the video](https://www.loom.com/share/4e8130ad3f204320916ed99c4e95d950)
+
+</div>
+
+## Key Features
+
+* Create a task that you need to complete either manually or by uploading a .csv file
+* See all tasks that you created
+* View and update a task
+* Mark a task as completed
+* Delete a task
+
+
+## How To Use
+
+To clone and run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+# Clone this repository
+$ git clone https://github.com/celinesoeiro/diving-by-zero.git
+
+# Go into the repository
+$ cd chuck-norris-facts
+
+# Install dependencies
+$ npm install
+
+# Run the app
+$ npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+> **Note**
+> If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+If you don't wish to clone you can access via [Taskify Web](https://taskify-web-celinesoeiro.vercel.app/)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+> **Note on file upload**
+>
+> * The file upload must be a .csv file.
+> * It must contain two colums: title and description as a header
+> * Insert the tasks below the header, on line 2 and so on
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Credits
 
-## Deploy on Vercel
+This application was built with
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- [Next.js](https://nextjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Typescript](https://www.typescriptlang.org/)
+- [Lucide icons](https://lucide.dev/)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## License
+
+MIT
+
+---
+
+> &nbsp;&middot;&nbsp; Portfolio [celinesoeiro.com](https://celinesoeiro.com/) &nbsp;&middot;&nbsp;
+> GitHub [@celinesoeiro](https://github.com/celinesoeiro) &nbsp;&middot;&nbsp;
