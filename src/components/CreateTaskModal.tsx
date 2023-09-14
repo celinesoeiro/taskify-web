@@ -1,20 +1,23 @@
 'use client'
 
-import { useState, FormEvent, useCallback, ChangeEvent } from 'react'
+import { useState, FormEvent, useCallback, ChangeEvent, Dispatch, SetStateAction } from 'react'
 
 import { Modal } from "./Modal"
 import { Button } from './Button';
 import { Input } from './Input';
 import { DragAndDrop } from './DragAndDrop';
 
-import { createTask, createTaskByCSV } from '@/api';
+// import { createTask, createTaskByCSV } from '@/api';
 import { useModal } from '@/contexts/ModalContext'
 
+import { StoredTaskProps } from '@/types/tasks'
 interface CreateTaskModalProps {
-  fetchData: () => void
+  fetchData: () => void;
+  setStoredTasks: (state: StoredTaskProps[]) => void;
+  storedTasks: StoredTaskProps[];
 }
 
-export const CreateTaskModal = ({ fetchData }: CreateTaskModalProps) => {
+export const CreateTaskModal = ({ fetchData, setStoredTasks, storedTasks }: CreateTaskModalProps) => {
   const { closeCreateTaskModal, isCreateTaskModalOpen } = useModal()
 
   const [formData, setFormData] = useState({
@@ -43,38 +46,47 @@ export const CreateTaskModal = ({ fetchData }: CreateTaskModalProps) => {
 
   const handleSubmit = useCallback(async (event: FormEvent) => {
     event.preventDefault()
+    /** Uncomment this lines if you are using the nodejs API of Taskify */
+    // if (!file && formData.title === '') {
+    //   alert('Please select either a file to upload or insert a title to create a task')
+    //   return;
+    // }
 
-    if (!file && formData.title === '') {
-      alert('Please select either a file to upload or insert a title to create a task')
-      return;
-    }
-
-    const fileFormData = new FormData()
-    fileFormData.append('file', file)
+    // const fileFormData = new FormData()
+    // fileFormData.append('file', file)
 
     try {
-      let response: Response
-      const isFileEmpty = fileFormData.get('file') === ''
-      console.log({ isFileEmpty })
+      // let response: Response
+      // const isFileEmpty = fileFormData.get('file') === ''
 
-      if (!isFileEmpty) {
-        response = await createTaskByCSV(fileFormData)
-      } else {
-        response = await createTask(formData)
+      // if (!isFileEmpty) {
+      //   response = await createTaskByCSV(fileFormData)
+      // } else {
+      const toBeStoredTask = {
+        id: Date.now(),
+        title: formData.title,
+        description: formData.description,
+        completed_at: null
       }
+      setStoredTasks([...storedTasks, toBeStoredTask])
+      closeCreateTaskModal()
+      formData.title = ''
+      formData.description = ''
+      fetchData()
 
-      console.log({ response })
+      // response = await createTask(formData)
+      // }
 
-      if (response.status === 200 || response.status === 201) {
-        closeCreateTaskModal()
-        formData.title = ''
-        formData.description = ''
-        await fetchData()
-      }
+      // if (response.status === 200 || response.status === 201) {
+      //   closeCreateTaskModal()
+      //   formData.title = ''
+      //   formData.description = ''
+      //   await fetchData()
+      // }
     } catch (err) {
       console.error('Error on task creation: ', err)
     }
-  }, [file, formData, closeCreateTaskModal, fetchData])
+  }, [formData, setStoredTasks, storedTasks, closeCreateTaskModal, fetchData])
 
   return (
     <div>

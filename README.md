@@ -53,15 +53,16 @@ $ npm start
 > **Note**
 > If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
 
-If you don't wish to clone you can access via [Taskify Web](https://taskify-web-celinesoeiro.vercel.app/)
-
-
-
-> **Note on file upload**
+> **Note**
 >
 > * The file upload must be a .csv file.
 > * It must contain two colums: title and description as a header
 > * Insert the tasks below the header, on line 2 and so on
+
+If you don't wish to clone you can access via [Taskify Web](https://taskify-web-celinesoeiro.vercel.app/)
+
+> **Note**
+> The CSV file upload is not available in the deployed version 
 
 
 ## Credits

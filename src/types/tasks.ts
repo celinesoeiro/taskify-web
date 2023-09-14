@@ -6,3 +6,10 @@ export interface Task {
   completed_at: Date;
   updated_at: Date;
 }
+
+export interface StoredTaskProps {
+  id: number;
+  title: string;
+  description: string;
+  completed_at: null | Date;
+}

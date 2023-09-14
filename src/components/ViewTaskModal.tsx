@@ -7,15 +7,17 @@ import { Button } from "./Button"
 import { Modal } from "./Modal"
 
 import { useModal } from '@/contexts/ModalContext'
-import { Task } from '@/types/tasks'
-import { updateTask } from '@/api'
+import { Task, StoredTaskProps } from '@/types/tasks'
+// import { updateTask } from '@/api'
 
 interface ViewTaskModalProps {
-  task?: Task,
-  fetchData: () => void
+  task?: Task | StoredTaskProps;
+  fetchData: () => void;
+  setStoredTasks: (state: StoredTaskProps[]) => void;
+  storedTasks: StoredTaskProps[];
 }
 
-export const ViewTaskModal = ({ task, fetchData }: ViewTaskModalProps) => {
+export const ViewTaskModal = ({ task, fetchData, storedTasks, setStoredTasks }: ViewTaskModalProps) => {
   const { closeViewTaskModal, isViewTaskModalOpen } = useModal()
   const [formData, setFormData] = useState({
     title: '',
@@ -31,14 +33,31 @@ export const ViewTaskModal = ({ task, fetchData }: ViewTaskModalProps) => {
         description: formData.description !== task?.description && formData.description ? formData.description : task.description
       }
 
-      const response = await updateTask(task?.id, data)
-
-      if (response.status === 204) {
-        await fetchData()
-        closeViewTaskModal()
+      const toBeStoredTask = {
+        id: Date.now(),
+        title: data.title,
+        description: data.description,
+        completed_at: task.completed_at
       }
+      const updatedStoredTasks: StoredTaskProps[] = storedTasks.map((st) => {
+        return st.id === task.id ? toBeStoredTask : st
+      })
+
+      setStoredTasks(updatedStoredTasks)
+      fetchData()
+      closeViewTaskModal()
+
+      /** Uncomment this lines if you are using the nodejs API of Taskify */
+      // if (typeof task.id === 'string') {
+      //   const response = await updateTask(task?.id, data)
+
+      //   if (response.status === 204) {
+      //     fetchData()
+      //     closeViewTaskModal()
+      //   }
+      // }
     }
-  }, [closeViewTaskModal, fetchData, formData, task])
+  }, [closeViewTaskModal, fetchData, formData, setStoredTasks, storedTasks, task])
 
   const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
     const fieldName = event.target.name

@@ -9,27 +9,46 @@ import { ViewTaskModal } from './ViewTaskModal'
 import { Button } from './Button'
 import { TabContent } from './TabContent'
 
-import { deleteTask, listTasks, markAsDone } from "@/api"
+// import { deleteTask, listTasks, markAsDone } from "@/api"
 
 import { useModal } from '@/contexts/ModalContext'
 
-import { Task } from '@/types/tasks'
+import { Task, StoredTaskProps } from '@/types/tasks'
 
 export const TasksPanel = () => {
   const { openViewTaskModal, openCreateTaskModal } = useModal()
 
+  /** FOR LOCALSTORAGE API PURPOSES */
+  const [storedTasks, setStoredTasks] = useState<StoredTaskProps[]>([])
+
+  /** FOR NODEJS LOCAL API PURPOSES */
   const [loading, setLoading] = useState(true)
   const [updatingTasks, setUpdatingTasks] = useState(false)
   const [tasks, setTasks] = useState<Task[]>([])
-  const [selectedTask, setSelectedTask] = useState<Task>()
+  const [selectedTask, setSelectedTask] = useState<Task | StoredTaskProps>()
+
+  useEffect(() => {
+    const storedTasks = localStorage.getItem('tasks')
+    if (storedTasks) {
+      setTasks(JSON.parse(storedTasks))
+    }
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(storedTasks))
+  }, [storedTasks])
 
   const getTasks = async (id?: string) => {
     try {
-      const response = await listTasks(id ?? '')
-      const { allTasks, selectedTask } = await response.json()
+      /** Uncomment this lines if you are using the nodejs API of Taskify */
+      // const response = await listTasks(id ?? '')
+      // const { allTasks, selectedTask } = await response.json()
+      // setSelectedTask(selectedTask[0])
 
-      setTasks(allTasks)
-      setSelectedTask(selectedTask[0])
+      const storedTasks = localStorage.getItem('tasks')
+      if (storedTasks) {
+        setTasks(JSON.parse(storedTasks))
+      }
     } catch (error) {
       console.error(error)
     } finally {
@@ -45,10 +64,24 @@ export const TasksPanel = () => {
     return tasks.filter(task => task.completed_at !== null)
   }, [tasks])
 
-  const handleCheck = async (id: string) => {
+  const handleCheck = async (id: string | number) => {
     try {
       setUpdatingTasks(true)
-      await markAsDone(id)
+
+      const storedTask = storedTasks.find(task => task.id === id)
+      if (storedTask) {
+        storedTask.completed_at = new Date()
+      }
+      const updatedStoredTasks: StoredTaskProps[] = storedTasks.map((task) => {
+        return task.id === id ? { ...task, completed_at: new Date() } : task
+      })
+      setStoredTasks(updatedStoredTasks)
+
+      /** Uncomment this lines if you are using the nodejs API of Taskify */
+      // if (typeof id === 'string') {
+      //   await markAsDone(id)
+      // }
+
       getTasks()
     } catch (error) {
       console.error(error)
@@ -57,10 +90,17 @@ export const TasksPanel = () => {
     }
   }
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: string | number) => {
     try {
+      const updatedStoredTasks = storedTasks.filter((task) => task.id !== id)
+      setStoredTasks(updatedStoredTasks)
+
       setUpdatingTasks(true)
-      await deleteTask(id)
+      /** Uncomment this lines if you are using the nodejs API of Taskify */
+      // if (typeof id === 'string') {
+      //   await deleteTask(id)
+      // }
+
       getTasks()
     } catch (error) {
       console.error(error)
@@ -69,17 +109,22 @@ export const TasksPanel = () => {
     }
   }
 
-  const handleShowTask = useCallback(async (id: string) => {
+  const handleShowTask = useCallback(async (id: string | number) => {
     try {
       setUpdatingTasks(true)
-      await getTasks(id)
+      const storedTask = storedTasks.find(task => task.id === id)
+      /** Uncomment this lines if you are using the nodejs API of Taskify */
+      // if (typeof id === 'string') {
+      //   await getTasks(id)
+      // }
+      setSelectedTask(storedTask)
       openViewTaskModal()
     } catch (error) {
       console.error(error)
     } finally {
       setUpdatingTasks(false)
     }
-  }, [openViewTaskModal])
+  }, [openViewTaskModal, storedTasks])
 
   return (
     <>
@@ -121,9 +166,18 @@ export const TasksPanel = () => {
 
       </section>
 
-      <CreateTaskModal fetchData={getTasks} />
+      <CreateTaskModal
+        fetchData={getTasks}
+        setStoredTasks={setStoredTasks}
+        storedTasks={storedTasks}
+      />
 
-      <ViewTaskModal task={selectedTask} fetchData={getTasks} />
+      <ViewTaskModal
+        task={selectedTask}
+        fetchData={getTasks}
+        storedTasks={storedTasks}
+        setStoredTasks={setStoredTasks}
+      />
     </>
   )
 }
