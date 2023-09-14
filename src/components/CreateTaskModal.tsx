@@ -54,10 +54,10 @@ export const CreateTaskModal = ({ fetchData }: CreateTaskModalProps) => {
 
     try {
       let response: Response
-      const isFile = fileFormData.has('file') ? true : false
+      const isFileEmpty = fileFormData.get('file') === ''
+      console.log({ isFileEmpty })
 
-      if (isFile) {
-        console.log('aqui')
+      if (!isFileEmpty) {
         response = await createTaskByCSV(fileFormData)
       } else {
         response = await createTask(formData)
@@ -65,9 +65,11 @@ export const CreateTaskModal = ({ fetchData }: CreateTaskModalProps) => {
 
       console.log({ response })
 
-      if (response.status === 201) {
+      if (response.status === 200 || response.status === 201) {
         closeCreateTaskModal()
-        fetchData()
+        formData.title = ''
+        formData.description = ''
+        await fetchData()
       }
     } catch (err) {
       console.error('Error on task creation: ', err)
@@ -84,9 +86,23 @@ export const CreateTaskModal = ({ fetchData }: CreateTaskModalProps) => {
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <p className='flex justify-center'>You can add a single task</p>
 
-          <Input type='text' name='title' id="title" label="Title" onChange={handleInput} />
+          <Input
+            type='text'
+            name='title'
+            id="title"
+            label="Title"
+            onChange={handleInput}
+            value={formData.title}
+          />
 
-          <Input type='text' name='description' id="description" label="Description" onChange={handleInput} />
+          <Input
+            type='text'
+            name='description'
+            id="description"
+            label="Description"
+            onChange={handleInput}
+            value={formData.description}
+          />
 
           <p className='flex justify-center'>OR upload many tasks using CSV</p>
 

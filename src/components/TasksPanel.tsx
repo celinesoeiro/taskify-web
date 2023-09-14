@@ -83,8 +83,9 @@ export const TasksPanel = () => {
 
   return (
     <>
-      <section className='col-start-7 col-end-12 py-12 flex flex-col gap-10'>
-        <h1 className='font-alt text-5xl mb-6'>Hello, Stranger</h1>
+      <section className='col-start-7 col-end-12 py-12 flex flex-col gap-10 justify-center'>
+        <h1 className='font-alt text-6xl text-center'>Taskify</h1>
+        <h3 className='font-alt text-4xl mb-6'>Hello, Friend</h3>
 
         {loading ? (
           <div className='flex justify-center align-middle'>
