@@ -109,7 +109,7 @@ export const TasksPanel = () => {
                     </div>
                   ) : (
                     <>
-                      {tasks.map((task) => (
+                      {tasks.length > 0 ? tasks.map((task) => (
                         <div className="flex flex-row justify-between" key={task.id}>
                           <Checkbox
                             label={task.title}
@@ -130,7 +130,12 @@ export const TasksPanel = () => {
                             </button>
                           </div>
                         </div>
-                      ))}
+                      )) : (
+                        <div className='flex flex-col justify-center items-center'>
+                          <p className='font-bold'>You don&apos;t have any task. </p>
+                          <p>This means either you nailed them all or you haven&apos;t start working yet.</p>
+                        </div>
+                      )}
                     </>
                   )}
 
