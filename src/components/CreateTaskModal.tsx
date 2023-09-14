@@ -15,66 +15,64 @@ interface CreateTaskModalProps {
 }
 
 export const CreateTaskModal = ({ fetchData }: CreateTaskModalProps) => {
-  const { closeCreateTaskModal, isCreateTaskModalOpen, openCreateTaskModal } = useModal()
+  const { closeCreateTaskModal, isCreateTaskModalOpen } = useModal()
 
   const [formData, setFormData] = useState({
     title: '',
     description: '',
   })
-  const [fileData, setFileData] = useState()
-
+  const [file, setFile] = useState<File | string>('')
+  const [fileName, setFileName] = useState('')
 
   const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
     const fieldName = event.target.name
     let fieldValue: FileList | string = event.target.value
-    const formData = new FormData()
 
-    if (fieldName === "csv" && event.target.files) {
-      formData.append('file', event.target.files[0])
-    } else {
-      setFormData((prevState) => ({
-        ...prevState,
-        [fieldName]: fieldValue
-      }))
+    setFormData((prevState) => ({
+      ...prevState,
+      [fieldName]: fieldValue
+    }))
+  }
+
+  const handleFileInput = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      setFile(event.target.files[0])
+      setFileName(event.target.files[0].name)
     }
   }
 
-  const handleUploadFile = async (event: ChangeEvent<HTMLInputElement>) => {
-    try {
-      const formData = new FormData()
-      if (event.target.files) {
-        formData.append('file', event.target.files[0])
-
-        const response = await createTaskByCSV(formData)
-
-        console.log({ response })
-      }
-    } catch (err) {
-      console.error('Error on file upload: ', err)
-    }
-  }
-
-  const handleSubmit = useCallback(async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = useCallback(async (event: FormEvent) => {
     event.preventDefault()
 
+    if (!file && formData.title === '') {
+      alert('Please select either a file to upload or insert a title to create a task')
+      return;
+    }
+
+    const fileFormData = new FormData()
+    fileFormData.append('file', file)
+
     try {
+      let response: Response
+      const isFile = fileFormData.has('file') ? true : false
 
-    } catch (e) {
+      if (isFile) {
+        console.log('aqui')
+        response = await createTaskByCSV(fileFormData)
+      } else {
+        response = await createTask(formData)
+      }
 
+      console.log({ response })
+
+      if (response.status === 201) {
+        closeCreateTaskModal()
+        fetchData()
+      }
+    } catch (err) {
+      console.error('Error on task creation: ', err)
     }
-    const fileReader = new window.FileReader()
-    console.log({ formData })
-
-    const response = await createTask(formData)
-
-    console.log({ response, fileReader })
-
-    if (response.status === 201) {
-      closeCreateTaskModal()
-      fetchData()
-    }
-
-  }, [formData])
+  }, [file, formData, closeCreateTaskModal, fetchData])
 
   return (
     <div>
@@ -92,7 +90,7 @@ export const CreateTaskModal = ({ fetchData }: CreateTaskModalProps) => {
 
           <p className='flex justify-center'>OR upload many tasks using CSV</p>
 
-          <DragAndDrop id="csv" allowed='CSV' name="csv" file={fileData} onChange={handleInput} />
+          <DragAndDrop id="csv" name="csv" file={fileName} onChange={handleFileInput} />
 
           <Button type="submit">Add</Button>
         </form>

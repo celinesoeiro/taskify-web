@@ -2,11 +2,10 @@ import { InputHTMLAttributes } from 'react'
 
 interface InputProps {
   id: string;
-  allowed: string;
-  file?: File;
+  file?: string;
 }
 
-export const DragAndDrop = ({ id, allowed, file, ...props }: InputProps & InputHTMLAttributes<HTMLInputElement>) => {
+export const DragAndDrop = ({ id, file, ...props }: InputProps & InputHTMLAttributes<HTMLInputElement>) => {
   return (
     <div className="flex items-center justify-center w-full  mb-2">
       <label
@@ -18,7 +17,7 @@ export const DragAndDrop = ({ id, allowed, file, ...props }: InputProps & InputH
           </svg>
           <p className="my-2 text-gray-500 text-md">
             {file ? (
-              <span>{file.name}</span>
+              <span>{file}</span>
             ) : (
               <>
                 <span className="font-semibold text-md">Click to upload</span> or drag and drop
@@ -27,7 +26,7 @@ export const DragAndDrop = ({ id, allowed, file, ...props }: InputProps & InputH
 
           </p>
           <p className="text-xs text-gray-500 ">
-            ({allowed})
+            (CSV)
           </p>
         </div>
         <input id={id} type="file" className="hidden" accept='.csv' {...props} />

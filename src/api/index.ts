@@ -1,5 +1,3 @@
-import { File } from "buffer";
-
 export const baseURL = 'http://localhost:3333/tasks'
 
 interface CreateTask {
@@ -31,26 +29,28 @@ export const deleteTask = async (id: string) => {
 }
 
 export const createTask = async (data: CreateTask) => {
+    console.log({ data })
     return await fetch(baseURL, {
         method: 'POST',
         mode: 'cors',
         headers: {
-            'accept': 'application/json',
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify(data)
     })
 }
 
 export const createTaskByCSV = async (data: FormData) => {
+    console.log({ data });
     return await fetch(baseURL, {
         method: 'POST',
         mode: 'cors',
         headers: {
-            'content-type': 'multipart/form-data'
+            'Content-Type': 'multipart/form-data'
         },
-        body: JSON.stringify(data)
-    })
-}
+        body: data
+    });
+};
 
 export const updateTask = async (id: string, data: CreateTask) => {
     return await fetch(`${baseURL}/${id}`, {

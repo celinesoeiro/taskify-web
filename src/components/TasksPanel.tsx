@@ -26,10 +26,8 @@ export const TasksPanel = () => {
   const getTasks = async (id?: string) => {
     try {
       const response = await listTasks(id ?? '')
-
       const { allTasks, selectedTask } = await response.json()
 
-      console.log({ allTasks, selectedTask })
       setTasks(allTasks)
       setSelectedTask(selectedTask[0])
     } catch (error) {
@@ -50,9 +48,7 @@ export const TasksPanel = () => {
   const handleCheck = async (id: string) => {
     try {
       setUpdatingTasks(true)
-
       await markAsDone(id)
-
       getTasks()
     } catch (error) {
       console.error(error)
@@ -77,14 +73,13 @@ export const TasksPanel = () => {
     try {
       setUpdatingTasks(true)
       await getTasks(id)
-      console.log({ selectedTask })
       openViewTaskModal()
     } catch (error) {
       console.error(error)
     } finally {
       setUpdatingTasks(false)
     }
-  }, [openViewTaskModal, selectedTask])
+  }, [openViewTaskModal])
 
   return (
     <>
@@ -148,7 +143,6 @@ export const TasksPanel = () => {
         <div className="flex flex-row gap-4 justify-center">
           <Button onClick={openCreateTaskModal}>Add new task</Button>
         </div>
-
 
       </section>
 
