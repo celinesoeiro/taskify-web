@@ -83,7 +83,7 @@ export function TasksProvider({ children }: TasksProviderProps) {
         response = await createTask(task)
       }
 
-      if (response.status === 201) {
+      if (response.status === 201 || response.status === 200) {
         handleGetTasks()
       }
       return response

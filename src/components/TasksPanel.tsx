@@ -2,7 +2,6 @@
 
 import { Banner } from "./Banner"
 import { CreateTaskModal } from "./CreateTaskModal"
-import { Tabs } from "./Tabs"
 import { ViewTaskModal } from './ViewTaskModal'
 import { Button } from './Button'
 import { TabContent } from './TabContent'
@@ -33,12 +32,12 @@ export const TasksPanel = () => {
               </div>
             </Banner>
 
-            <Tabs tabs={[
-              {
-                label: 'TASKS',
-                content: <TabContent />
-              },
-            ]} />
+            <div className='border-2 border-black shadow-retro max-h-[464px] md:max-h-[360px] h-full'>
+              <p className="w-full py-2 border-black border-b-2 text-center text-xl font-semibold bg-violet-400">TASKS</p>
+              <div className="p-4 h-full max-h-[410px] md:max-h-[310px] lg:max-h-[310px] xl:max-h-[310px] 2xl:max-h-[310px] overflow-y-auto">
+                <TabContent />
+              </div>
+            </div>
           </>
         )}
 
