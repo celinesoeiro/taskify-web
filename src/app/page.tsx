@@ -2,7 +2,7 @@ import Image from "next/image"
 
 import bg from '../../public/bg-6.png';
 
-import { ModalProvider } from '@/contexts/ModalContext';
+import { ModalProvider, TasksProvider } from '@/contexts';
 
 import { TasksPanel } from "@/components/TasksPanel"
 
@@ -13,9 +13,13 @@ export default function Home() {
         <Image src={bg} alt="checklist" className="px-4" />
       </section>
 
+
       <ModalProvider>
-        <TasksPanel />
+        <TasksProvider>
+          <TasksPanel />
+        </TasksProvider>
       </ModalProvider>
+
     </main>
   )
 }

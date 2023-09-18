@@ -1,18 +1,14 @@
-import { Task } from "@/types/tasks";
+'use client'
 import { Checkbox } from "./Checkbox";
 
-interface TabContentProps {
-  isLoading: boolean;
-  tasks: Task[];
-  handleCheck: (id: string) => void;
-  handleShowTask: (id: string) => void;
-  handleDelete: (id: string) => void;
-}
+import { useTasks } from '@/contexts'
 
-export const TabContent = ({ isLoading, tasks, handleCheck, handleDelete, handleShowTask }: TabContentProps) => {
+export const TabContent = () => {
+  const { handleShowTask, handleDeleteTask, handleCheckTask, loadingTask, tasks } = useTasks()
+
   return (
     <div className="gap-4 flex flex-col">
-      {isLoading ? (
+      {loadingTask ? (
         <div className='flex justify-center items-center'>
           <svg
             width="48"
@@ -35,7 +31,7 @@ export const TabContent = ({ isLoading, tasks, handleCheck, handleDelete, handle
               <Checkbox
                 label={task.title}
                 checked={Boolean(task.completed_at)}
-                handleClick={() => handleCheck(task.id)}
+                handleClick={() => handleCheckTask(task.id)}
               />
               <div className="flex flex-row gap-x-2 items-baseline">
                 <button
@@ -60,7 +56,7 @@ export const TabContent = ({ isLoading, tasks, handleCheck, handleDelete, handle
                 </button>
                 <button
                   className="font-bold text-xl flex flex-end"
-                  onClick={() => handleDelete(task.id)}
+                  onClick={() => handleDeleteTask(task.id)}
                 >
                   <svg
                     width="24"

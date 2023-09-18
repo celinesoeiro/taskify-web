@@ -59,7 +59,7 @@ $ npm start
 > * It must contain two colums: title and description as a header
 > * Insert the tasks below the header, on line 2 and so on
 
-If you don't wish to clone you can access via [Taskify Web](https://taskify-web-celinesoeiro.vercel.app/)
+If you don't wish to clone you can access via [Taskify Web](https://taskify-web-celinesoeiro.vercel.app/). This version uses localStorage API to persist the data you insert.
 
 > **Note**
 > The CSV file upload is not available in the deployed version 

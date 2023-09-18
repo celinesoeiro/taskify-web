@@ -7,18 +7,11 @@ import { Button } from './Button';
 import { Input } from './Input';
 import { DragAndDrop } from './DragAndDrop';
 
-// import { createTask, createTaskByCSV } from '@/api';
-import { useModal } from '@/contexts/ModalContext'
+import { useModal, useTasks } from '@/contexts'
 
-import { StoredTaskProps } from '@/types/tasks'
-interface CreateTaskModalProps {
-  fetchData: () => void;
-  setStoredTasks: (state: StoredTaskProps[]) => void;
-  storedTasks: StoredTaskProps[];
-}
-
-export const CreateTaskModal = ({ fetchData, setStoredTasks, storedTasks }: CreateTaskModalProps) => {
+export const CreateTaskModal = () => {
   const { closeCreateTaskModal, isCreateTaskModalOpen } = useModal()
+  const { handleAddTask } = useTasks()
 
   const [formData, setFormData] = useState({
     title: '',
@@ -46,47 +39,21 @@ export const CreateTaskModal = ({ fetchData, setStoredTasks, storedTasks }: Crea
 
   const handleSubmit = useCallback(async (event: FormEvent) => {
     event.preventDefault()
-    /** Uncomment this lines if you are using the nodejs API of Taskify */
-    // if (!file && formData.title === '') {
-    //   alert('Please select either a file to upload or insert a title to create a task')
-    //   return;
-    // }
 
-    // const fileFormData = new FormData()
-    // fileFormData.append('file', file)
-
-    try {
-      // let response: Response
-      // const isFileEmpty = fileFormData.get('file') === ''
-
-      // if (!isFileEmpty) {
-      //   response = await createTaskByCSV(fileFormData)
-      // } else {
-      const toBeStoredTask = {
-        id: Date.now(),
-        title: formData.title,
-        description: formData.description,
-        completed_at: null
-      }
-      setStoredTasks([...storedTasks, toBeStoredTask])
-      closeCreateTaskModal()
-      formData.title = ''
-      formData.description = ''
-      fetchData()
-
-      // response = await createTask(formData)
-      // }
-
-      // if (response.status === 200 || response.status === 201) {
-      //   closeCreateTaskModal()
-      //   formData.title = ''
-      //   formData.description = ''
-      //   await fetchData()
-      // }
-    } catch (err) {
-      console.error('Error on task creation: ', err)
+    if (!file && formData.title === '') {
+      alert('Please select either a file to upload or insert a title to create a task')
+      return;
     }
-  }, [formData, setStoredTasks, storedTasks, closeCreateTaskModal, fetchData])
+
+    const fileFormData = new FormData()
+    fileFormData.append('file', file)
+
+    const response = await handleAddTask(formData, fileFormData)
+
+    if (response?.status === 201) {
+      closeCreateTaskModal()
+    }
+  }, [closeCreateTaskModal, file, formData, handleAddTask])
 
   return (
     <div>
@@ -123,8 +90,6 @@ export const CreateTaskModal = ({ fetchData, setStoredTasks, storedTasks }: Crea
           <Button type="submit">Add</Button>
         </form>
       </Modal>
-
     </div>
-
   )
 }

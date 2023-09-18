@@ -6,58 +6,16 @@ import { Input } from "./Input"
 import { Button } from "./Button"
 import { Modal } from "./Modal"
 
-import { useModal } from '@/contexts/ModalContext'
-import { Task, StoredTaskProps } from '@/types/tasks'
-// import { updateTask } from '@/api'
+import { useModal, useTasks } from '@/contexts'
 
-interface ViewTaskModalProps {
-  task?: Task | StoredTaskProps;
-  fetchData: () => void;
-  setStoredTasks: (state: StoredTaskProps[]) => void;
-  storedTasks: StoredTaskProps[];
-}
-
-export const ViewTaskModal = ({ task, fetchData, storedTasks, setStoredTasks }: ViewTaskModalProps) => {
+export const ViewTaskModal = () => {
   const { closeViewTaskModal, isViewTaskModalOpen } = useModal()
+  const { selectedTask, handleUpdateTask } = useTasks()
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
   })
-
-  const handleSubmit = useCallback(async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
-    if (task) {
-      const data = {
-        title: formData.title !== task?.title && formData.title ? formData.title : task.title,
-        description: formData.description !== task?.description && formData.description ? formData.description : task.description
-      }
-
-      const toBeStoredTask = {
-        id: Date.now(),
-        title: data.title,
-        description: data.description,
-        completed_at: task.completed_at
-      }
-      const updatedStoredTasks: StoredTaskProps[] = storedTasks.map((st) => {
-        return st.id === task.id ? toBeStoredTask : st
-      })
-
-      setStoredTasks(updatedStoredTasks)
-      fetchData()
-      closeViewTaskModal()
-
-      /** Uncomment this lines if you are using the nodejs API of Taskify */
-      // if (typeof task.id === 'string') {
-      //   const response = await updateTask(task?.id, data)
-
-      //   if (response.status === 204) {
-      //     fetchData()
-      //     closeViewTaskModal()
-      //   }
-      // }
-    }
-  }, [closeViewTaskModal, fetchData, formData, setStoredTasks, storedTasks, task])
 
   const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
     const fieldName = event.target.name
@@ -68,6 +26,25 @@ export const ViewTaskModal = ({ task, fetchData, storedTasks, setStoredTasks }: 
       [fieldName]: fieldValue
     }))
   }
+
+  const handleSubmit = useCallback(async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    if (selectedTask) {
+      const data = {
+        title: formData.title !== selectedTask?.title && formData.title ? formData.title : selectedTask.title,
+        description: formData.description !== selectedTask?.description && formData.description ? formData.description : selectedTask.description
+      }
+
+      if (typeof selectedTask.id === 'string') {
+        const response = await handleUpdateTask(selectedTask?.id, data)
+
+        if (response?.status === 204) {
+          closeViewTaskModal()
+        }
+      }
+    }
+  }, [closeViewTaskModal, formData, handleUpdateTask, selectedTask])
 
   return (
     <Modal
@@ -82,7 +59,7 @@ export const ViewTaskModal = ({ task, fetchData, storedTasks, setStoredTasks }: 
           id="title"
           label="Title"
           onChange={handleInput}
-          placeholder={task ? task.title : ''}
+          placeholder={selectedTask ? selectedTask.title : ''}
         />
 
         <Input
@@ -90,7 +67,7 @@ export const ViewTaskModal = ({ task, fetchData, storedTasks, setStoredTasks }: 
           name='description'
           id="description"
           label="Description"
-          placeholder={task ? task.description : ''}
+          placeholder={selectedTask ? selectedTask.description : ''}
           onChange={handleInput}
         />
 
@@ -98,7 +75,6 @@ export const ViewTaskModal = ({ task, fetchData, storedTasks, setStoredTasks }: 
           <Button onClick={closeViewTaskModal}>Close</Button>
           <Button type="submit">Update</Button>
         </div>
-
       </form>
     </Modal>
   )

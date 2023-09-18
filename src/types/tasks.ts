@@ -13,3 +13,8 @@ export interface StoredTaskProps {
   description: string;
   completed_at: null | Date;
 }
+
+export interface CreateTaskProps {
+  title: string;
+  description: string;
+}
