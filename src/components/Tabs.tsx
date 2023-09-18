@@ -17,7 +17,7 @@ export const Tabs = ({ tabs }: TabsProps) => {
 
   const wrapperRef = useRef(null)
 
-  const handleKeyDown = (e: { keyCode: number; target: any; }) => {
+  const handleKeyDown = (e: { keyCode: number; target: unknown; }) => {
     if (e.keyCode === 39) {
       if (wrapperRef.current) {
         if (

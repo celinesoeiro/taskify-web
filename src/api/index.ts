@@ -1,5 +1,4 @@
-export const baseURL = 'http://localhost:3333/tasks'
-
+const baseURL = 'http://localhost:3333/tasks'
 interface CreateTask {
     title: string;
     description?: string;
