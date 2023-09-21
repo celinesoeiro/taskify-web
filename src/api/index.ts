@@ -40,7 +40,6 @@ export const createTask = async (data: CreateTask) => {
 }
 
 export const createTaskByCSV = async (data: FormData) => {
-    console.log({ data });
     return await fetch(baseURL, {
         method: 'POST',
         mode: 'cors',

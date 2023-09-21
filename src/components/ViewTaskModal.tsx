@@ -30,14 +30,24 @@ export const ViewTaskModal = () => {
   const handleSubmit = useCallback(async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
+    if (!formData.title) {
+      return alert("All tasks must have a title. Please insert a title.")
+    }
+
     if (selectedTask) {
-      const data = {
-        title: formData.title !== selectedTask?.title && formData.title ? formData.title : selectedTask.title,
-        description: formData.description !== selectedTask?.description && formData.description ? formData.description : selectedTask.description
+      let title = selectedTask.title
+      let description = selectedTask.description
+
+      if (formData.title !== selectedTask.title && formData.title) {
+        title = formData.title
+      }
+
+      if (formData.description !== selectedTask?.description) {
+        description = formData.description
       }
 
       if (typeof selectedTask.id === 'string') {
-        const response = await handleUpdateTask(selectedTask?.id, data)
+        const response = await handleUpdateTask(selectedTask?.id, { title, description })
 
         if (response?.status === 204) {
           closeViewTaskModal()
