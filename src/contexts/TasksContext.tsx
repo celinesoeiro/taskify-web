@@ -42,21 +42,15 @@ export function TasksProvider({ children }: TasksProviderProps) {
   const [selectedTask, setSelectedTask] = useState<Task>()
 
   useEffect(() => {
-    console.log('initial fetch tasks')
     handleGetTasks()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  useEffect(() => {
-    console.log('TasksProvider -> ', tasks)
-  }, [tasks])
 
   const completedTasks = useMemo(() => {
     return tasks.filter(task => task.completed_at !== null)
   }, [tasks])
 
   const handleGetTasks = async (id?: string) => {
-    console.log('handleGetTasks')
     try {
       const response = await listTasks(id ?? '')
       const { allTasks, selectedTask } = await response.json()
@@ -110,7 +104,6 @@ export function TasksProvider({ children }: TasksProviderProps) {
   }
 
   const handleCheckTask = async (id: string) => {
-    console.log('aqui')
     try {
       setLoadingTask(true)
       const response = await markAsDone(id)

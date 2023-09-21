@@ -13,13 +13,11 @@ export default function Home() {
         <Image src={bg} alt="checklist" className="px-4" />
       </section>
 
-
       <ModalProvider>
         <TasksProvider>
           <TasksPanel />
         </TasksProvider>
       </ModalProvider>
-
     </main>
   )
 }

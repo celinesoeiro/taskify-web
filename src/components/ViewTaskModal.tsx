@@ -72,7 +72,7 @@ export const ViewTaskModal = () => {
         />
 
         <div className='flex flex-row justify-between'>
-          <Button onClick={closeViewTaskModal}>Close</Button>
+          <Button type='button' onClick={closeViewTaskModal}>Close</Button>
           <Button type="submit">Update</Button>
         </div>
       </form>
