@@ -15,14 +15,6 @@
   <a href="#license">License</a>
 </p>
 
-<div align="center">
-
-![6udfyw](https://user-images.githubusercontent.com/52112166/191875096-6faf9528-8e93-4d9f-b560-23c8171c3584.gif)
-
-[Watch the video](https://www.loom.com/share/4e8130ad3f204320916ed99c4e95d950)
-
-</div>
-
 ## Key Features
 
 * Create a task that you need to complete either manually or by uploading a .csv file
